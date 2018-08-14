@@ -1,7 +1,7 @@
 <template>
     <ul class="footer" :style="{background: footerBgColor}">
         <li class="footer-menu" v-for="(menu, index) in menuList" :key="index">
-            <router-link @click.native="selectMenu(menu)" :to="menu.path">{{menu.title}}</router-link>
+            <router-link  :to="menu.path">{{menu.title}}</router-link>
         </li>
     </ul> 
 </template>
@@ -17,10 +17,10 @@ export default {
   props: ["menuList","footerBgColor"],
   methods: {
     selectMenu(menu) {
-      this.$emit('changeTitle', menu);
+      this.$emit('selectTab', menu);
     }
   },
-  created () {
+  created () {   //生命周期
     
   }
 };

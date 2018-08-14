@@ -2,7 +2,7 @@
   <div id="app">
     <CommonHeader :selectMenu="selectMenu"></CommonHeader>
     <router-view class="content" @selectTab="selectTab"/>
-    <CommonFooter :footerBgColor="selectMenu.bgColor" @changeTitle="changeTitle" :menuList="menuList"></CommonFooter>
+    <CommonFooter :footerBgColor="selectMenu.bgColor" :menuList="menuList"></CommonFooter>
   </div>
 </template>
 
@@ -15,9 +15,6 @@ export default {
     CommonFooter
   },
   methods: {
-    changeTitle(menu){
-      this.selectMenu = menu;
-    },
     selectTab(menuName){
       this.menuList.forEach(menu =>{
         if(menu.name === menuName){

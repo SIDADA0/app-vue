@@ -1,4 +1,4 @@
-# v-app
+# app
 
 ## Project setup
 ```

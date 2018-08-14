@@ -5,7 +5,9 @@
 
 <script>
 export default {
-    
+    created() {
+        this.$emit('selectTab','movie')
+    },
 }
 </script>
 

@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <CommonHeader :selectMenu="selectMenu"></CommonHeader>
-    <router-view class="content"/>
-    <CommonFooter @changeTitle="changeTitle" :menuList="menuList"></CommonFooter>
+    <router-view class="content" @selectTab="selectTab"/>
+    <CommonFooter :footerBgColor="selectMenu.bgColor" @changeTitle="changeTitle" :menuList="menuList"></CommonFooter>
   </div>
 </template>
 
@@ -17,6 +17,13 @@ export default {
   methods: {
     changeTitle(menu){
       this.selectMenu = menu;
+    },
+    selectTab(Name){
+      this.menuList.forEach(menu =>{
+        if(menu.name == Name){
+          this.selectMenu = menu;
+        }
+      });
     }
   },
   data () {

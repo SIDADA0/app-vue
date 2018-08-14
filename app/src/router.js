@@ -12,24 +12,24 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [{
     path: '/',
-    redirect: '/movie',
+    redirect: '/movie'
   },
   {
     path: '/movie',
     name: 'movie',
-    component: Movie,
+    component: Movie
   }, {
     path: '/music',
     name: 'music',
-    component: Music,
+    component: Music
   }, {
     path: '/book',
     name: 'book',
-    component: Book,
+    component: Book
   }, {
     path: '/photo',
     name: 'photo',
-    component: Photo,
-  },
+    component: Photo
+  }
   ],
 });

@@ -6,7 +6,7 @@
 <script>
 export default {
     created() {
-        this.$emit('selectTab','music')
+        this.$emit('selectTab','music');
     },
 }
 </script>

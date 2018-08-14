@@ -1,12 +1,12 @@
 <template>
-    <h1>music</h1>
+    <h1>book</h1>
 </template>
 
 
 <script>
 export default {
     created() {
-        this.$emit('selectTab','music')
+        this.$emit('selectTab','book');
     },
 }
 </script>

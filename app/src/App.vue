@@ -1,25 +1,32 @@
 <template>
   <div id="app">
-      <CommonHeader :selectMenu="selectMenu"></CommonHeader>
-      <router-view class="content"/>
-      <CommonFooter @changeTitle="changeTitle" :menuList="menuList"></CommonFooter>
+    <CommonHeader :selectMenu="selectMenu"></CommonHeader>
+    <router-view class="content" @selectTab="selectTab"/>
+    <CommonFooter :footerBgColor="selectMenu.bgColor" @changeTitle="changeTitle" :menuList="menuList"></CommonFooter>
   </div>
 </template>
 
 <script>
-import CommonHeader from '@/components/CommonHeaeder.vue';
+import CommonHeader from '@/components/CommonHeader.vue';
 import CommonFooter from '@/components/CommonFooter.vue';
-export default{
-  components:{
+export default {
+  components: {
     CommonHeader,
     CommonFooter
   },
-  methods:{
+  methods: {
     changeTitle(menu){
       this.selectMenu = menu;
+    },
+    selectTab(menuName){
+      this.menuList.forEach(menu =>{
+        if(menu.name === menuName){
+          this.selectMenu = menu;
+        }
+      })  
     }
   },
-    data () {
+  data () {
     return {
       menuList: [
         {
@@ -46,13 +53,15 @@ export default{
       ],
       selectMenu: {} // 当前选中的菜单
     }
-    }
+  }
 }
 </script>
+
+
 
 <style lang="scss">
 .content{
   margin: 1rem 0;
 }
-</style>
 
+</style>

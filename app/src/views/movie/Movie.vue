@@ -1,7 +1,7 @@
 <template>
     <div>
         <ul>
-            <li class="movie" v-for="movie in movieList" :key="movie.id">
+            <li @click="gotoDetail(movie.id)" class="movie" v-for="movie in movieList" :key="movie.id">
                 <div class="movie-img">
                     <img :src="movie.images.large" alt="">
                 </div>
@@ -49,6 +49,9 @@ export default {
                 this.movieList = this.movieList.concat(getList);
                 this.isLoading = false;
             });
+        },
+        gotoDetail(movieId){
+            this.$router.push(`/moviedetail/${movieId}`);
         }
     },
     created() {
@@ -57,13 +60,13 @@ export default {
     },
     mounted() {
         window.onscroll = () =>{
-            let scrollTop = document.documentElement.scrollTop;
-            let scrollHeight = document.documentElement.scrollHeight;
+            let scrollTop = Math.ceil(document.documentElement.scrollTop);
+            let scrollHeight = Math.ceil(document.documentElement.scrollHeight);
             let clientHeight = document.documentElement.clientHeight;
             console.log(scrollHeight, scrollTop, clientHeight);
-            if(scrollHeight == scrollTop + clientHeight && !this.isEnd){
+            if(scrollHeight == scrollTop +clientHeight && !this.isEnd){
                 this.getData();
-            }
+            } //存在问题=浏览器scroll
         }
     },
 }
@@ -94,7 +97,7 @@ export default {
     &-average {
     font-weight: 700;
     color: #faaf00;
-    margin: 0 2rem;
+    // margin: 0 2rem;
     }
 
     &-star {

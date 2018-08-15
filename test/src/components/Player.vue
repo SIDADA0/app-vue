@@ -15,7 +15,7 @@
                         <i class="icon iconfont icon-zanting" v-show="isPlay" @click="pause"></i>
                         <i class="icon iconfont icon-xiayishou" @click="next"></i>
                     </div>
-                    <span @click="toggleList = !toggleList" class="album-info-control-menu">^歌单^</span>
+                    <span @click="tooggleList = !tooggleList" class="album-info-control-menu">^歌单^</span>
                 </div>
             </div>
         </div>
@@ -23,7 +23,7 @@
         <!-- list -->
         <transition name="slide">
             <ul class="music-list" v-show="toggleList">
-                <li @click="selectMusic(index)" :class="['music-list-item', nowIndex == index?'selected':'']" v-for="(music,index) in musicList" :key="index">
+                <li @click="selectMusic(index)" :class="['music-list-item', nowIndex == index?'selected':'']" v-for="(music,index) in music-list" :key="index">
                     <span class="music-list-item-title"> {{music.title}}---</span>
                     <span class="music-list-item-author">{{music.author}}</span>
                 </li>
@@ -58,10 +58,10 @@ export default {
             this.nowIndex = index;
         },
         play(){
-            this.$refs.musicAudio.play();
+            this.$refs.musicAuto.play();
         },
         pause(){
-            this.$refs.musicAudio.pause();
+            this.$refs.musicAuto.pause();
         },
         prev(){
             this.nowIndex--;

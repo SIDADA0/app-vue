@@ -6,6 +6,7 @@ import Book from '@/views/book/Book.vue'
 import Photo from '@/views/photo/Photo.vue'
 import MovieDetail from '@/views/movie/MovieDetail.vue'
 
+
 Vue.use(Router);
 
 export default new Router({
@@ -32,8 +33,8 @@ export default new Router({
     name: 'photo',
     component: Photo
   },{
-    path: '/movie',
-    name: 'MovieDetail',
+    path: '/moviedetail/:movieId',
+    name: 'moviedetail',
     component: MovieDetail
   }
   ],

@@ -60,6 +60,7 @@ export default {
             let scrollTop = document.documentElement.scrollTop;
             let scrollHeight = document.documentElement.scrollHeight;
             let clientHeight = document.documentElement.clientHeight;
+            console.log(scrollHeight, scrollTop, clientHeight);
             if(scrollHeight == scrollTop + clientHeight && !this.isEnd){
                 this.getData();
             }

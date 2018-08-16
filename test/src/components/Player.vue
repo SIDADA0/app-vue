@@ -15,7 +15,7 @@
                         <i class="icon iconfont icon-zanting" v-show="isPlay" @click="pause"></i>
                         <i class="icon iconfont icon-xiayishou" @click="next"></i>
                     </div>
-                    <span @click="tooggleList = !tooggleList" class="album-info-control-menu">^歌单^</span>
+                    <span @click="toggleList = !toggleList" class="album-info-control-menu">^歌单^</span>
                 </div>
             </div>
         </div>
@@ -23,7 +23,7 @@
         <!-- list -->
         <transition name="slide">
             <ul class="music-list" v-show="toggleList">
-                <li @click="selectMusic(index)" :class="['music-list-item', nowIndex == index?'selected':'']" v-for="(music,index) in music-list" :key="index">
+                <li @click="selectMusic(index)" :class="['music-list-item', nowIndex == index?'selected':'']" v-for="(music,index) in musicList" :key="index">
                     <span class="music-list-item-title"> {{music.title}}---</span>
                     <span class="music-list-item-author">{{music.author}}</span>
                 </li>
@@ -31,14 +31,22 @@
         </transition>
 
         <div class="audio">
+            <!-- ref 获取当前对象  -->
             <audio ref="musicAudio" :src="musicSrc" @play="isPlay = true" @pause="isPlay = false" class="audio-ctrl"  autoplay controls></audio>
         </div>
+
+        <ul class="lrclist" ref="lrclist">
+            <li :class="lrcIndex == index?'selected':''" v-for="(lrc,index) in lrcList" :key="lrc.time">
+                {{lrc.lrc}}
+            </li>
+        </ul>
 
     </div>
 </template>
 
 <script>
 import "@/assets/font/iconfont.css";
+import axios from 'axios';
 export default {
     props:["musicList"],
     data(){
@@ -51,6 +59,8 @@ export default {
             isPlay:false,
             toggleList:true,
             musicSrc:"",
+            lrcList:[],
+            lrcIndex:-1,
         };
     },
     methods:{
@@ -58,10 +68,10 @@ export default {
             this.nowIndex = index;
         },
         play(){
-            this.$refs.musicAuto.play();
+            this.$refs.musicAudio.play();
         },
         pause(){
-            this.$refs.musicAuto.pause();
+            this.$refs.musicAudio.pause();
         },
         prev(){
             this.nowIndex--;
@@ -74,6 +84,22 @@ export default {
             if(this.nowIndex == this.nowIndex.length){
                 this.nowIndex = 0;
             }
+        },
+        parseLrc(text){
+            let line = text.split('\n');
+            line.forEach(elem => {
+                let time = elem.match(/\[\d{2}:\d{2}.\d{2}\]/);
+                if(time !=null){
+                    // console.log(time,time2Seconds,lrc);
+                    let lrc = elem.split(time)[1];
+                    let timeReg = time[0].match(/(\d{2}):(\d{2}).(\d{2})/);
+                    let time2Seconds = parseInt(timeReg[1]) *60 +parseInt(timeReg[2]) + parseInt(timeReg[3])/1000;
+                    this.lrcList.push({
+                        time: time2Seconds,
+                        lrc:lrc,
+                    })
+                }
+            });
         }
     },
     watch:{
@@ -83,8 +109,25 @@ export default {
             this.albumTitle = nowMusic.title;
             this.albumAuthor = nowMusic.Author;
             this.musicSrc = nowMusic.src;
+            this.lrcList = [];
+            this.lrcIndex = -1;
+            axios.get('/'+ nowMusic.lrc).then(res =>{
+                this.parseLrc(res.data);
+            });
         }
-    }
+    },
+    mounted() {
+        let musicAudio = this.$refs.musicAudio;
+        this.$refs.musicAudio.addEventListener('timeupdate',() =>{
+            let currentTime = musicAudio.currentTime;
+            this.lrcList.forEach((elem,index) =>{
+                if(Math.ceil(elem.time) >= currentTime && Math.floor(elem.time) <currentTime){
+                    this.lrcIndex = index;
+                    this.$refs.lrclist.scrollTop = this.lrcIndex * 25;
+                }
+            });
+        });
+    },
 }
 </script>
 
@@ -98,7 +141,8 @@ export default {
     position: fixed;
     bottom: 2rem;
     width: 100%;
-    background-color: #2a2929;
+    // background-color: #2a2929;
+    background-color: rgba(0, 0, 0, 0.8);
     height: 4rem;
     overflow-y: scroll;
     &-item {
@@ -113,10 +157,11 @@ export default {
     }
 
     .album {
+    height: 2.3rem;
     display: flex;
     text-align: center;
     position: relative;
-    color: #fff;
+    color: rgba(8, 141, 30, 0.637);
     &-mask {
         position: absolute;
         top: 0;
@@ -185,7 +230,8 @@ export default {
     }
 
     .audio {
-    background: #ccc;
+    // background: #ccc;
+    background-color: rgba(0, 0, 0, 0.8);
     height: 1rem;
     position: fixed;
     bottom: 1rem;
@@ -193,5 +239,26 @@ export default {
     &-ctrl {
         width: 100%;
     }
+    }
+
+    .lrclist{
+        background-color: aliceblue;
+        text-align: center;
+        position: fixed;
+        top: 3.3rem;
+        left: 0;
+        bottom: 2rem;
+        right: 0;
+        overflow-y: scroll;
+        z-index: -1;
+        padding-top: 1.5rem;
+        li{
+            font-size: 0.3rem;
+        }
+    }
+
+    .selected{
+        color: #299557;
+        font-size: 120%;
     }
 </style>

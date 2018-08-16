@@ -24,7 +24,6 @@
 </template>
 
 
-
 <script>
 import axios from 'axios';
 
@@ -61,7 +60,7 @@ export default {
                 });
             },
             gotoDetail(movieId){
-                this.$router.push=(`moviedetail/${movieId}`);
+                this.$router.push(`moviedetail/${movieId}`);
             }
     },
     created() {
@@ -74,7 +73,7 @@ export default {
             let scrollHeight = Math.ceil(document.documentElement.scrollHeight);
             let clientHeight = document.documentElement.clientHeight;
             console.log(scrollHeight, scrollTop, clientHeight);
-            if(scrollHeight == scrollTop+ 96 +clientHeight && !this.isEnd){
+            if(scrollHeight == scrollTop +clientHeight && !this.isEnd){
                 this.getData();
             }
         };
@@ -107,7 +106,7 @@ export default {
     &-average {
     font-weight: 700;
     color: #faaf00;
-    margin: 0 2rem;
+    // margin: 0 2rem;
     }
 
     &-star {

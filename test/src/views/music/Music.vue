@@ -1,5 +1,5 @@
 <template>
-    <h1>music</h1>
+    <Player :musicList="musicList"></Player>
 </template>
 
 
@@ -9,7 +9,7 @@ import axios from 'axios';
     export default {
         data(){
             return{
-                musicList : ["musicList"],
+                musicList : [],
             };
         },
         created() {

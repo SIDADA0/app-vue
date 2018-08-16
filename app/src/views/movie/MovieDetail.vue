@@ -29,15 +29,30 @@ import axios from "axios";
 *{
     background-color: alpha($color: palegoldenrod)
 }
-.head{
+<style lang="scss" scoped>
+*{
+    // background-color: alpha($color: palegoldenrod)
+    background-image: url(http://img.hb.aicdn.com/ff047fdb28dca60654c71efbccf9d0d05a80d67526cb0-mhbQfS_sq320) ;
+}
+.title{
     width: 100%;
     height: 2rem;
     text-align: center;
+    color: red;
     background-color: peachpuff;
     &-content{
+        position: fixed;
+        top: 2rem;
         width: 100% ;
         height: 100%;
         background-color: papayawhip;
+        span{
+            width: 60%;
+            color: rebeccapurple;
+            display: block;
+            margin: 2rem auto;
+        }
     }
 }
 </style>
+

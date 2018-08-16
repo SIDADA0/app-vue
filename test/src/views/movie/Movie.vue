@@ -69,7 +69,8 @@ export default {
     },
     mounted () {
         window.onscroll =() => {
-            let scrollTop = Math.ceil(document.documentElement.scrollTop);
+            let mi = document.documentElement.scrollTop || document.body.scrollTop;
+            let scrollTop = Math.ceil(mi);
             let scrollHeight = Math.ceil(document.documentElement.scrollHeight);
             let clientHeight = document.documentElement.clientHeight;
             console.log(scrollHeight, scrollTop, clientHeight);

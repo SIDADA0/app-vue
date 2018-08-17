@@ -15,7 +15,7 @@
             </li>
         </ul>
         <div class="end" v-show="isEnd">
-            <h4>加载完毕</h4>
+            <h3>您已加载全部场次...</h3>
         </div>
         <div class="loading" v-show="isLoading">
             <img src="@/assets/img/loading2.gif" alt="">
@@ -26,50 +26,60 @@
 
 <script>
 import axios from 'axios';
+
 export default {
     data(){
         return{
-            movieList : [],
-            isLoading:true,
+            movieList:[],
+            isLoading: true,
             isEnd:false
         };
     },
-    methods: {
-        getData(){
-            let url = "https://api.myjson.com/bins/17ybu4";
-            this.isLoading = true;
-            axios.get(url).then(res=>{
+    methods:{
+            getData() {
+                let url1 ="https://bird.ioliu.cn/v2?url=https://api.douban.com/v2/movie/top250?start=0&count=5";
+                // let url2 = "https://api.myjson.com/bins/pb8vw";
+                let url2 ="https://api.myjson.com/bins/17ybu4";
+                this.isLoading = true;
+                axios.get(url2).then(res =>{
+                    // console.log(
+                    //     res.data.subjects.slice(
+                    //     this.movieList.length,
+                    //     this.movieList.length + 5
+                    // )
+                // );
                 let getList = res.data.subjects.slice(
                     this.movieList.length,
-                    this.movieList.length + 5,
+                    this.movieList.length + 5
                 );
-                if(getList.length < 5){
+                if (getList.length < 5) {
                     this.isEnd = true;
-                };
+                }
                 this.movieList = this.movieList.concat(getList);
                 this.isLoading = false;
-            });
-        },
-        gotoDetail(movieId){
-            this.$router.push(`/moviedetail/${movieId}`);
-        }
+                });
+            },
+            gotoDetail(movieId){
+                this.$router.push(`moviedetail/${movieId}`);
+            }
     },
     created() {
         this.$emit('selectTab','movie');
         this.getData();
     },
-    mounted() {
-        window.onscroll = () =>{
-            let scrollTop = Math.ceil(document.documentElement.scrollTop);
+    mounted () {
+        window.onscroll =() => {
+            let mi = document.documentElement.scrollTop || document.body.scrollTop;
+            let scrollTop = Math.ceil(mi);
             let scrollHeight = Math.ceil(document.documentElement.scrollHeight);
             let clientHeight = document.documentElement.clientHeight;
             console.log(scrollHeight, scrollTop, clientHeight);
             if(scrollHeight == scrollTop +clientHeight && !this.isEnd){
                 this.getData();
-            } //存在问题=浏览器scroll
-        }
-    },
-}
+            }
+        };
+    }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -121,5 +131,6 @@ export default {
     text-align: center;
 }
 </style>
+
 
 

@@ -1,7 +1,7 @@
 <template>
     <div>
-        <h1 class="head">{{detail.title}}</h1>
-        <p class="head-content">{{detail.summary}}</p>
+        <h1 class="title">{{detail.title}}</h1>
+        <p class="title-content"> <span><b>{{detail.summary}}</b></span></p>
     </div>
 </template>
 
@@ -18,7 +18,7 @@ import axios from "axios";
         this.$route.params.movieId
         }`;
         axios.get(url).then(res => {
-        console.log(res);
+        // console.log(res);
         this.detail = res.data;
         });
     }
@@ -27,12 +27,9 @@ import axios from "axios";
 
 <style lang="scss" scoped>
 *{
-    background-color: alpha($color: palegoldenrod)
-}
-<style lang="scss" scoped>
-*{
     // background-color: alpha($color: palegoldenrod)
     background-image: url(http://img.hb.aicdn.com/ff047fdb28dca60654c71efbccf9d0d05a80d67526cb0-mhbQfS_sq320) ;
+    background-size: cover;
 }
 .title{
     width: 100%;
@@ -55,4 +52,3 @@ import axios from "axios";
     }
 }
 </style>
-
